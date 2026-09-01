@@ -15,10 +15,15 @@
 
 - 建立專案目錄與啟動文件骨架。
 - 已確認目的、範圍與 GitHub 帳號：`imrchen`。
+- 啟動 gate 通過後，移入 16 頁零相依 HTML 簡報與公開 README。
+- 建立公開 repository：`https://github.com/imrchen/rectangle-formula-slides`。
+- 啟用 GitHub Pages，網址：`https://imrchen.github.io/rectangle-formula-slides/`。
 
 ### 驗證
 
-- 待文件完成後執行 `check-project-start.sh --type coding --target /Users/roger/estudio/rectangle-formula-slides`。
+- `check-project-start.sh --type coding --target /Users/roger/estudio/rectangle-formula-slides`：通過。
+- Node 解析 `index.html` 的內嵌腳本：通過，確認 16 頁。
+- GitHub Pages 狀態：`built`；公開網址回應 HTTP 200。
 
 ### 未定事項
 
@@ -26,8 +31,8 @@
 
 ### 下一步
 
-- 完成 preflight 後，移入 `index.html`、建立 Git repository、推送至 GitHub 並啟用 Pages。
+- 視課堂試用回饋調整文字、圖形比例或逐頁節奏；每次修改 `index.html` 後推送 `main`，GitHub Pages 會重新發布。
 
 ### 工作區狀態
 
-- Git 尚未初始化；尚無正式實作或暫存產物。
+- Git 已初始化；已建立啟動文件 commit 與 HTML 簡報 commit。待提交本次發布紀錄更新。
