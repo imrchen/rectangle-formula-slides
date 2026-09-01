@@ -25,17 +25,19 @@
     .dash { stroke-dasharray:8 6; } .label { fill:var(--ink); font:700 32px Georgia,serif; text-anchor:middle; } .area { font:700 37px Georgia,serif; text-anchor:middle; }
     .teal { fill:var(--teal); } .orange { fill:#b06a00; } .rose { fill:#c05245; } .lav { fill:#5367b7; } .green { fill:#278d33; }
     .page { position:absolute; right:4.2%; bottom:4%; color:var(--muted); font-size:clamp(12px,1.08vw,16px); }
+    .credit { position:absolute; left:4.2%; bottom:3.7%; margin:0; color:#8598a5; font-size:clamp(10px,.85vw,13px); letter-spacing:.02em; }
     .nav { position:absolute; z-index:2; left:50%; bottom:3.2%; display:flex; gap:.55rem; transform:translateX(-50%); }
     button { width:2.35rem; height:2.35rem; border:1px solid #c9d5dd; border-radius:999px; background:#ffffffdc; color:var(--ink); font-size:1.25rem; cursor:pointer; } button:hover { border-color:var(--teal); background:#fff; }
     .progress { position:absolute; left:0; bottom:0; height:5px; background:var(--amber); transition:width .35s ease; }
     .title-slide { grid-template-columns:47% 53%; } .title-slide h1 { font-size:clamp(46px,5.2vw,79px); } .title-slide .formula { font-size:clamp(28px,2.7vw,42px); }
-    @media (max-width:700px) { body{background:var(--bg)} .deck{width:100vw;min-height:100vh;aspect-ratio:auto;box-shadow:none} .slide{grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:11% 8% 12%} .copy{align-self:start;padding:0} .hint{display:none}.formula{margin-top:1rem}.visual{align-self:start;padding-top:3vh}.nav{bottom:2.3%}.page{bottom:3.2%;right:7%} }
+    @media (max-width:700px) { body{background:var(--bg)} .deck{width:100vw;min-height:100vh;aspect-ratio:auto;box-shadow:none} .slide{grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:11% 8% 12%} .copy{align-self:start;padding:0} .hint{display:none}.formula{margin-top:1rem}.visual{align-self:start;padding-top:3vh}.nav{bottom:2.3%}.page{bottom:3.2%;right:7%}.credit{left:8%;bottom:3.35%} }
   </style>
 </head>
 <body>
   <main class="deck" aria-label="長方形圖解乘法公式">
     <div id="slides"></div>
     <nav class="nav" aria-label="投影片控制"><button type="button" id="prev" aria-label="上一頁">←</button><button type="button" id="next" aria-label="下一頁">→</button></nav>
+    <p class="credit">桃園市光明國中 - 810 數學課 (c)</p>
     <div class="progress" aria-hidden="true"></div>
   </main>
   <script>

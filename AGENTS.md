@@ -8,7 +8,7 @@
 
 ## 目前狀態
 
-active。已從 math 工作站的三頁原型接手，待啟動 gate 通過後移入 16 頁靜態簡報並發布至 GitHub Pages。
+active。16 頁靜態簡報已發布至 GitHub Pages；目前依課堂試用回饋持續調整。
 
 ## 快速啟動
 
