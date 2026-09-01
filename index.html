@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>長方形圖解乘法公式</title>
+  <style>
+    :root { --ink:#17324d; --muted:#587189; --teal:#168f8b; --amber:#f4b942; --mint:#ddf4f1; --orange:#f9e6c9; --rose:#f6dfda; --lav:#e4e7fb; --green:#9af77d; --blue:#c8d7ff; --bg:#f8fbfc; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; display:grid; place-items:center; background:#eaf0f3; color:var(--ink); font-family:"PingFang TC","Noto Sans TC",system-ui,sans-serif; }
+    .deck { position:relative; width:min(100vw,1440px); aspect-ratio:16 / 9; overflow:hidden; background:var(--bg); box-shadow:0 20px 60px #17324d28; }
+    .slide { position:absolute; inset:0; display:grid; grid-template-columns:42% 58%; padding:5.5% 5.6% 5.2%; opacity:0; pointer-events:none; transform:translateX(3%) scale(.988); transition:opacity .38s ease,transform .5s cubic-bezier(.2,.8,.2,1); }
+    .slide.active { opacity:1; pointer-events:auto; transform:translateX(0) scale(1); }
+    .copy { align-self:center; padding-right:4%; }
+    .eyebrow { margin:0 0 1.1rem; color:var(--teal); font-size:clamp(12px,1.2vw,18px); font-weight:800; letter-spacing:.06em; }
+    h1 { margin:0 0 .85rem; font-size:clamp(28px,3.05vw,47px); line-height:1.17; letter-spacing:-.045em; }
+    .hint { max-width:31rem; min-height:3.05em; margin:0; color:var(--muted); font-size:clamp(16px,1.48vw,22px); line-height:1.52; }
+    .formula { margin:2rem 0 0; color:var(--teal); font:700 clamp(36px,4.1vw,64px)/1.13 Georgia,"Times New Roman",serif; letter-spacing:-.045em; }
+    .formula.compact { font-size:clamp(31px,3.45vw,54px); }
+    .accent { color:#c05245; } .blue { color:#5367b7; } .orangeText { color:#b06a00; } .muted { color:var(--muted); }
+    .micro { margin:1rem 0 0; color:var(--muted); font-size:clamp(13px,1.05vw,16px); }
+    .visual { min-width:0; display:grid; place-items:center; }
+    svg { width:min(100%,740px); height:auto; overflow:visible; }
+    .edge { stroke:var(--ink); stroke-width:3; vector-effect:non-scaling-stroke; } .cut { stroke:var(--ink); stroke-width:3; vector-effect:non-scaling-stroke; }
+    .dash { stroke-dasharray:8 6; } .label { fill:var(--ink); font:700 32px Georgia,serif; text-anchor:middle; } .area { font:700 37px Georgia,serif; text-anchor:middle; }
+    .teal { fill:var(--teal); } .orange { fill:#b06a00; } .rose { fill:#c05245; } .lav { fill:#5367b7; } .green { fill:#278d33; }
+    .page { position:absolute; right:4.2%; bottom:4%; color:var(--muted); font-size:clamp(12px,1.08vw,16px); }
+    .nav { position:absolute; z-index:2; left:50%; bottom:3.2%; display:flex; gap:.55rem; transform:translateX(-50%); }
+    button { width:2.35rem; height:2.35rem; border:1px solid #c9d5dd; border-radius:999px; background:#ffffffdc; color:var(--ink); font-size:1.25rem; cursor:pointer; } button:hover { border-color:var(--teal); background:#fff; }
+    .progress { position:absolute; left:0; bottom:0; height:5px; background:var(--amber); transition:width .35s ease; }
+    .title-slide { grid-template-columns:47% 53%; } .title-slide h1 { font-size:clamp(46px,5.2vw,79px); } .title-slide .formula { font-size:clamp(28px,2.7vw,42px); }
+    @media (max-width:700px) { body{background:var(--bg)} .deck{width:100vw;min-height:100vh;aspect-ratio:auto;box-shadow:none} .slide{grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:11% 8% 12%} .copy{align-self:start;padding:0} .hint{display:none}.formula{margin-top:1rem}.visual{align-self:start;padding-top:3vh}.nav{bottom:2.3%}.page{bottom:3.2%;right:7%} }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="長方形圖解乘法公式">
+    <div id="slides"></div>
+    <nav class="nav" aria-label="投影片控制"><button type="button" id="prev" aria-label="上一頁">←</button><button type="button" id="next" aria-label="下一頁">→</button></nav>
+    <div class="progress" aria-hidden="true"></div>
+  </main>
+  <script>
+    const box = (inside) => `<svg viewBox="40 20 680 570" role="img">${inside}</svg>`;
+    const four = (labels, options={}) => {
+      const q = options.question ? ['？','？','？','？'] : labels;
+      return box(`<text class="label" x="290" y="65">${options.top1 || 'a'}</text><text class="label" x="585" y="65">${options.top2 || 'b'}</text><text class="label" x="72" y="250">${options.left1 || 'a'}</text><text class="label" x="72" y="475">${options.left2 || 'b'}</text><rect x="140" y="95" width="560" height="440" fill="#fff" class="edge"/><rect x="140" y="95" width="340" height="260" fill="var(--mint)"/><rect x="480" y="95" width="220" height="260" fill="var(--orange)"/><rect x="140" y="355" width="340" height="180" fill="var(--rose)"/><rect x="480" y="355" width="220" height="180" fill="var(--lav)"/><line x1="480" y1="95" x2="480" y2="535" class="cut"/><line x1="140" y1="355" x2="700" y2="355" class="cut"/><text class="area teal" x="310" y="245">${q[0]}</text><text class="area orange" x="590" y="245">${q[1]}</text><text class="area rose" x="310" y="460">${q[2]}</text><text class="area lav" x="590" y="460">${q[3]}</text>`);
+    };
+    const diagram = {
+      intro: () => four(['a²','ab','ba','b²']),
+      whole: () => box(`<text class="label" x="420" y="65">c＋d</text><text class="label" x="75" y="335">6</text><rect x="140" y="95" width="560" height="440" fill="var(--mint)" class="edge"/><text class="area teal" x="420" y="335">6(c＋d)</text>`),
+      split: () => box(`<text class="label" x="310" y="65">c</text><text class="label" x="590" y="65">d</text><text class="label" x="75" y="335">6</text><rect x="140" y="95" width="560" height="440" fill="#fff" class="edge"/><rect x="140" y="95" width="340" height="440" fill="var(--mint)"/><rect x="480" y="95" width="220" height="440" fill="var(--orange)"/><line x1="480" y1="95" x2="480" y2="535" class="cut"/><text class="area teal" x="310" y="335">6c</text><text class="area orange" x="590" y="335">6d</text>`),
+      blank: () => four([], { question:true, top1:'a', top2:'c', left1:'b', left2:'d' }),
+      products: () => four(['ab','cb','ad','cd'], { top1:'a', top2:'c', left1:'b', left2:'d' }),
+      sum: () => four(['a²','ab','ba','b²']),
+      diffRight: () => box(`<text class="label" x="320" y="65">a−b</text><text class="label" x="600" y="65">b</text><text class="label" x="72" y="335">a</text><rect x="140" y="95" width="560" height="440" fill="var(--mint)" class="edge"/><rect x="500" y="95" width="200" height="440" fill="var(--green)"/><line x1="500" y1="95" x2="500" y2="535" class="cut"/><text class="area teal" x="320" y="335">a²</text><text class="area green" x="600" y="335">ab</text>`),
+      diffDouble: (repair=false) => box(`<text class="label" x="320" y="65">a−b</text><text class="label" x="600" y="65">b</text><text class="label" x="72" y="250">a−b</text><text class="label" x="72" y="475">b</text><rect x="140" y="95" width="560" height="440" fill="#fff" class="edge"/><rect x="140" y="95" width="360" height="280" fill="#80eaf1"/><rect x="500" y="95" width="200" height="440" fill="var(--green)"/><rect x="140" y="375" width="560" height="160" fill="var(--green)"/><rect x="500" y="375" width="200" height="160" fill="${repair ? 'var(--blue)' : '#4eda57'}" class="edge dash"/><line x1="500" y1="95" x2="500" y2="535" class="cut"/><line x1="140" y1="375" x2="700" y2="375" class="cut"/><text class="area teal" x="320" y="250">(a−b)²</text><text class="area green" x="600" y="255">ab</text><text class="area green" x="320" y="470">ab</text><text class="area ${repair ? 'lav' : 'green'}" x="600" y="452">${repair ? '補回 b²' : '扣兩次 b²'}</text>`),
+      lshape: () => box(`<text class="label" x="420" y="65">a</text><text class="label" x="72" y="245">a−b</text><text class="label" x="72" y="475">b</text><rect x="140" y="95" width="560" height="440" fill="#fff" class="edge"/><rect x="140" y="95" width="560" height="280" fill="var(--mint)"/><rect x="140" y="375" width="350" height="160" fill="var(--orange)"/><rect x="490" y="375" width="210" height="160" fill="#edf1f4" class="edge dash"/><line x1="140" y1="375" x2="700" y2="375" class="cut"/><line x1="490" y1="375" x2="490" y2="535" class="cut"/><text class="area teal" x="420" y="250">a(a−b)</text><text class="area orange" x="315" y="470">b(a−b)</text><text class="area lav" x="595" y="463">挖掉 b²</text>`),
+      reassembled: () => box(`<text class="label" x="320" y="65">a</text><text class="label" x="600" y="65">b</text><text class="label" x="72" y="335">a−b</text><rect x="140" y="95" width="560" height="440" fill="#fff" class="edge"/><rect x="140" y="95" width="360" height="440" fill="var(--mint)"/><rect x="500" y="95" width="200" height="440" fill="var(--orange)"/><line x1="500" y1="95" x2="500" y2="535" class="cut"/><text class="area teal" x="320" y="335">a(a−b)</text><text class="area orange" x="600" y="335">b(a−b)</text>`),
+    };
+    const slides = [
+      { title:'長方形圖解', hint:'切開、扣掉、重排；每一個算式都有一個面積故事。', formula:'乘法公式', diagram:'intro', titleSlide:true, micro:'按 → 或空白鍵開始' },
+      { title:'先看一個完整的長方形', hint:'長是 6，寬是 c＋d。面積先寫成一個乘式。', formula:'6(c＋d)', diagram:'whole' },
+      { title:'切一刀，面積沒有變', hint:'兩塊都有同一個高 6，所以每一段寬都要乘上 6。', formula:'6(c＋d)<br><span class="accent">＝ 6c＋6d</span>', diagram:'split' },
+      { title:'現在，長與寬都拆開', hint:'長是 a＋c，寬是 b＋d；會自然出現四個小長方形。', formula:'(a＋c)(b＋d)', diagram:'blank' },
+      { title:'每一格都是一組乘積', hint:'先找每一格的長，再找它的寬；一共會有四個乘積。', formula:'ab ＋ cb ＋ ad ＋ cd', diagram:'products', compact:true },
+      { title:'四格相加，就是展開式', hint:'四個面積一格也不能漏；算式的順序可以調整。', formula:'(a＋c)(b＋d)<br><span class="accent">＝ ab＋ad＋cb＋cd</span>', diagram:'products', compact:true },
+      { title:'兩邊都改成 a＋b', hint:'同一種切法，現在整個長方形變成一個正方形。', formula:'(a＋b)²', diagram:'sum' },
+      { title:'中間兩格一樣大', hint:'ab 和 ba 的面積相同，所以它們可以合併。', formula:'(a＋b)²<br>＝ a² <span class="orangeText">＋ 2ab</span> <span class="blue">＋ b²</span>', diagram:'sum', compact:true },
+      { title:'先扣右邊一條 ab', hint:'從邊長 a 的大正方形開始，先扣掉右邊這一條。', formula:'a² <span class="accent">− ab</span>', diagram:'diffRight' },
+      { title:'再扣下方一條 ab', hint:'右下角的小格同時屬於兩條，所以被扣到了兩次。', formula:'a² <span class="accent">− ab − ab</span>', diagram:'diffDouble', compact:true },
+      { title:'角落扣兩次，要補回', hint:'右條與下條都扣掉同一個角落，因此最後補回一次 b²。', formula:'(a−b)²<br>＝ a² <span class="accent">− 2ab</span> <span class="blue">＋ b²</span>', diagram:'diffRepair', compact:true },
+      { title:'再來，看一個 L 形', hint:'從 a² 挖掉右下角 b²，留下的面積就是 a²−b²。', formula:'a² <span class="accent">− b²</span>', diagram:'lshape' },
+      { title:'L 形其實是兩塊長方形', hint:'兩塊都有共同的高 a−b；接下來可以重新拼排。', formula:'a(a−b) <span class="muted">＋</span> <span class="orangeText">b(a−b)</span>', diagram:'lshape', compact:true },
+      { title:'把左下那一塊搬到右邊', hint:'同一個 L 形面積，重新排成高 a−b、寬 a＋b 的長方形。', formula:'寬 a＋b　×　高 a−b', diagram:'reassembled', compact:true },
+      { title:'平方差公式，從重排看見', hint:'重排前後的面積相同，因此可以直接讀出乘法公式。', formula:'a² − b²<br><span class="accent">＝ (a＋b)(a−b)</span>', diagram:'reassembled', compact:true },
+      { title:'看圖，不漏乘', hint:'切開、扣掉、重排，面積都要對得起算式。', formula:'每一項，都有一塊面積', diagram:'reassembled', compact:true },
+    ];
+    const root = document.querySelector('#slides');
+    root.innerHTML = slides.map((s, i) => `<section class="slide ${i===0?'active':''} ${s.titleSlide?'title-slide':''}" aria-label="第 ${i+1} 頁"><div class="copy"><p class="eyebrow">八上 1-1　乘法公式</p><h1>${s.title}</h1><p class="hint">${s.hint}</p><p class="formula ${s.compact?'compact':''}">${s.formula}</p>${s.micro?`<p class="micro">${s.micro}</p>`:''}</div><div class="visual">${diagram[s.diagram === 'diffRepair' ? 'diffDouble' : s.diagram](s.diagram === 'diffRepair')}</div><span class="page">${i+1} / ${slides.length}</span></section>`).join('');
+    const nodes = [...document.querySelectorAll('.slide')], progress = document.querySelector('.progress'); let current = 0;
+    function go(index) { current = (index + nodes.length) % nodes.length; nodes.forEach((slide,i)=>slide.classList.toggle('active',i===current)); progress.style.width = `${(current+1)/nodes.length*100}%`; }
+    document.querySelector('#prev').addEventListener('click', () => go(current-1)); document.querySelector('#next').addEventListener('click', () => go(current+1));
+    document.querySelector('.deck').addEventListener('click', event => { if (!event.target.closest('button')) go(current+1); });
+    document.addEventListener('keydown', event => { if (['ArrowRight',' ','PageDown'].includes(event.key)) { event.preventDefault(); go(current+1); } if (['ArrowLeft','PageUp'].includes(event.key)) { event.preventDefault(); go(current-1); } if (event.key==='Home') go(0); if (event.key==='End') go(nodes.length-1); });
+    go(0);
+  </script>
+</body>
+</html>
