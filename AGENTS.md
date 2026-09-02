@@ -20,9 +20,9 @@ active。17 頁靜態簡報已發布至 GitHub Pages；目前依課堂試用回�
 
 ## 與 math 工作站的關係
 
-`/Users/roger/estudio/math` 是本簡報教學內容與 PPTX 的主工作站；PPTX 是主版本，教材查閱、公式、圖形意義與敘事順序都先在 math 決定。本專案的 HTML／GitHub Pages 是公開播放用的衍生版本。
+`/Users/roger/estudio/math` 是本簡報教學內容最初的來源，保留教材研究、試作與 PPTX。本專案的 HTML／GitHub Pages 是「長方形圖解乘法公式」公開播放用的獨立版本。
 
-教學內容變更時，先在 math 更新 PPTX，再由 Roger 明確交辦「同步更新 HTML 版」後才修改本站，避免兩個版本內容漂移。本站可直接處理不改變教學內容的媒介細節，例如鍵盤操作、響應式排版、字級、頁尾標記與 GitHub Pages 維護。
+本站可獨立調整教學內容、敘事順序、圖形設計與呈現方式，不強制要求先在 math 更新 PPTX 或由 Roger 逐次交辦同步；兩邊版本各自維護，內容不必時時一致。
 
 本站只維護「長方形圖解乘法公式」。新的獨立簡報不可加入本站；應先在 math 製作 PPTX，確認要公開發布後，另開自己的 HTML 專案、GitHub repository 與 Pages 網址。
 
