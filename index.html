@@ -35,12 +35,16 @@
     @keyframes popIn { from{transform:scale(.35);opacity:0} to{transform:scale(1);opacity:1} }
     .cmpFormula { font:700 30px Georgia,"Times New Roman",serif; } .cmpBig { font:800 60px Georgia,"Times New Roman",serif; }
     .micro2 { font:600 22px "PingFang TC","Noto Sans TC",sans-serif; fill:var(--muted); }
+    .cardLabel { font:700 23px "PingFang TC","Noto Sans TC",sans-serif; }
+    .cardFormula { font:700 26px Georgia,"Times New Roman",serif; }
+    .ink { fill:var(--ink); }
     .page { position:absolute; right:4.2%; bottom:4%; color:var(--muted); font-size:clamp(12px,1.08vw,16px); }
     .credit { position:absolute; left:4.2%; bottom:3.7%; margin:0; color:#8598a5; font-size:clamp(10px,.85vw,13px); letter-spacing:.02em; }
     .nav { position:absolute; z-index:2; left:50%; bottom:3.2%; display:flex; gap:.55rem; transform:translateX(-50%); }
     button { width:2.35rem; height:2.35rem; border:1px solid #c9d5dd; border-radius:999px; background:#ffffffdc; color:var(--ink); font-size:1.25rem; cursor:pointer; } button:hover { border-color:var(--teal); background:#fff; }
     .progress { position:absolute; left:0; bottom:0; height:5px; background:var(--amber); transition:width .35s ease; }
-    .title-slide { grid-template-columns:47% 53%; } .title-slide h1 { font-size:clamp(46px,5.2vw,79px); } .title-slide .formula { font-size:clamp(28px,2.7vw,42px); }
+    .title-slide { grid-template-columns:47% 53%; background:linear-gradient(160deg,var(--mint) 0%,var(--bg) 58%); } .title-slide h1 { font-size:clamp(46px,5.2vw,79px); } .title-slide .formula { font-size:clamp(28px,2.7vw,42px); }
+    .title-slide .micro { display:inline-flex; align-items:center; gap:.4rem; margin-top:1.7rem; padding:.6rem 1.2rem; background:var(--teal); color:#fff; font-weight:700; font-size:clamp(13px,1.05vw,16px); border-radius:999px; box-shadow:0 10px 22px #168f8b3d; }
     @media (max-width:700px) { body{background:var(--bg)} .deck{width:100vw;min-height:100vh;aspect-ratio:auto;box-shadow:none} .slide{grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:11% 8% 12%} .copy{align-self:start;padding:0} .hint{display:none}.formula{margin-top:1rem}.visual{align-self:start;padding-top:3vh}.nav{bottom:2.3%}.page{bottom:3.2%;right:7%}.credit{left:8%;bottom:3.35%} }
   </style>
 </head>
@@ -77,6 +81,8 @@
       compare: () => box(`<rect x="90" y="95" width="10" height="440" fill="var(--amber)"/><text class="cmpFormula teal" x="150" y="150">(a＋b)² ＝ a²＋2ab＋b²</text><text class="cmpBig teal" x="180" y="255">＋2ab</text><text class="cmpFormula teal" x="150" y="380">(a－b)² ＝ a²－2ab＋b²</text><text class="cmpBig rose" x="180" y="485">－2ab</text><text class="micro2" x="150" y="555">唯一差別：中間項 2ab 前面的正負號</text>`),
       lshape: () => box(`<text class="label" x="420" y="65">a</text><text class="label" x="72" y="245">a−b</text><text class="label" x="72" y="475">b</text><rect x="140" y="95" width="560" height="440" fill="#fff" class="edge"/><rect x="140" y="95" width="560" height="280" fill="var(--mint)"/><rect x="140" y="375" width="350" height="160" fill="var(--orange)"/><rect x="490" y="375" width="210" height="160" fill="#edf1f4" class="edge dash"/><line x1="140" y1="375" x2="700" y2="375" class="cut"/><line x1="490" y1="375" x2="490" y2="535" class="cut"/><text class="area teal" x="420" y="250">a(a−b)</text><text class="area orange" x="315" y="470">b(a−b)</text><text class="area lav" x="595" y="463">挖掉 b²</text>`),
       reassembled: () => box(`<text class="label" x="320" y="65">a</text><text class="label" x="600" y="65">b</text><text class="label" x="72" y="335">a−b</text><rect x="140" y="95" width="560" height="440" fill="#fff" class="edge"/><rect x="140" y="95" width="360" height="440" fill="var(--mint)"/><rect x="500" y="95" width="200" height="440" fill="var(--orange)"/><line x1="500" y1="95" x2="500" y2="535" class="cut"/><text class="area teal" x="320" y="335">a(a−b)</text><text class="area orange" x="600" y="335">b(a−b)</text>`),
+      choose: () => box(`<rect x="90" y="90" width="560" height="130" rx="16" fill="var(--lav)"/><text class="cardLabel ink" x="118" y="130">① 兩括號內容不同</text><text class="cmpFormula ink" x="118" y="175">(x＋3)(x＋5)</text><text class="micro2" x="118" y="205">→ 老實展開（分配律）</text><rect x="90" y="235" width="560" height="130" rx="16" fill="var(--mint)"/><text class="cardLabel teal" x="118" y="275">② 內容相同、正負號也相同</text><text class="cmpFormula teal" x="118" y="320">(x＋4)(x＋4) ＝ (x＋4)²</text><text class="micro2" x="118" y="350">－ 的情況同理，正負號照抄</text><rect x="90" y="380" width="560" height="130" rx="16" fill="var(--rose)"/><text class="cardLabel rose" x="118" y="420">③ 內容相同、正負號相反</text><text class="cmpFormula rose" x="118" y="465">(x＋4)(x－4) ＝ x²－16</text><text class="micro2" x="118" y="495">平方差公式</text>`),
+      mental: () => box(`<rect x="90" y="85" width="560" height="110" rx="14" fill="var(--mint)"/><text class="cardLabel teal" x="115" y="119">① 303² —— 同號，套 (a±b)²</text><text class="cardFormula teal" x="115" y="165">(300＋3)² ＝ 91809</text><rect x="90" y="210" width="560" height="110" rx="14" fill="var(--mint)"/><text class="cardLabel teal" x="115" y="244">② 99² —— 同號，套 (a±b)²</text><text class="cardFormula teal" x="115" y="290">(100－1)² ＝ 9801</text><rect x="90" y="335" width="560" height="110" rx="14" fill="var(--rose)"/><text class="cardLabel rose" x="115" y="369">③ 203×197 —— 異號，套平方差</text><text class="cardFormula rose" x="115" y="415">(200＋3)(200－3) ＝ 39991</text><rect x="90" y="460" width="560" height="110" rx="14" fill="var(--lav)"/><text class="cardLabel ink" x="115" y="494">④ 9.8×10.5 —— 不是特殊公式，老實乘</text><text class="cardFormula ink" x="115" y="540">(10－0.2)(10＋0.5) ＝ 102.9</text>`),
     };
     const slides = [
       { title:'長方形圖解', hint:'切開、扣掉、重排；每一個算式都有一個面積故事。', formula:'乘法公式', diagram:'intro', titleSlide:true, micro:'按 → 或空白鍵開始' },
@@ -96,6 +102,8 @@
       { title:'把左下那一塊搬到右邊', hint:'同一個 L 形面積，重新排成高 a−b、寬 a＋b 的長方形。', formula:'寬 a＋b　×　高 a−b', diagram:'reassembled', compact:true },
       { title:'平方差公式，從重排看見', hint:'重排前後的面積相同，因此可以直接讀出乘法公式。', formula:'a² − b²<br><span class="accent">＝ (a＋b)(a−b)</span>', diagram:'reassembled', compact:true },
       { title:'看圖，不漏乘', hint:'切開、扣掉、重排，面積都要對得起算式。', formula:'每一項，都有一塊面積', diagram:'reassembled', compact:true },
+      { title:'公式也能拿來心算', hint:'把數字拆成整十、整百加減一個小尾巴，就用同一套判斷來選公式。', formula:'同一套判斷，數字也適用', diagram:'mental', compact:true },
+      { title:'看到題目，怎麼選公式？', hint:'兩個括號的內容跟正負號，決定要用哪一種公式。', formula:'先看內容，再看正負號', diagram:'choose', compact:true },
     ];
     const root = document.querySelector('#slides');
     root.innerHTML = slides.map((s, i) => `<section class="slide ${i===0?'active':''} ${s.titleSlide?'title-slide':''}" aria-label="第 ${i+1} 頁"><div class="copy"><p class="eyebrow">八上 1-1　乘法公式</p><h1>${s.title}</h1><p class="hint">${s.hint}</p><p class="formula ${s.compact?'compact':''}">${s.formula}</p>${s.micro?`<p class="micro">${s.micro}</p>`:''}</div><div class="visual">${diagram[s.diagram]()}</div><span class="page">${i+1} / ${slides.length}</span></section>`).join('');
